@@ -1,0 +1,18 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# SQLite DB
+db.sqlite3
+
+# Virtual envs
+env/
+venv/
+
+# Logs
+*.log
+
+# Docker context cruft
+.dockerignore
+.git
+.gitignore

@@ -10,3 +10,9 @@ class Software(models.Model):
 
     def __str__(self):
         return f"{self.hostname} - {self.software_name} {self.version}"
+
+class SoftwareCatalog(models.Model):
+    name = models.CharField(max_length=255)
+    requires_license = models.BooleanField(default=False)
+    is_metered = models.BooleanField(default=False)  # true = usage tracked
+    reclaim_after_days = models.IntegerField(default=30)

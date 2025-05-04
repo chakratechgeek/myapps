@@ -46,6 +46,30 @@ def add_person_api(request):
     }, status=201)
 
 
+@csrf_exempt
+def collect_software_api(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Only POST allowed'}, status=405)
+
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return HttpResponseBadRequest("Invalid JSON")
+
+    if not isinstance(data, list):
+        return HttpResponseBadRequest("Expected a list of software records")
+
+    for entry in data:
+        Software.objects.create(
+            hostname=entry.get('hostname'),
+            software_name=entry.get('software_name'),
+            version=entry.get('version'),
+            license_key=entry.get('license_key', ''),
+            is_valid=entry.get('is_valid', True)
+        )
+
+    return JsonResponse({"message": "Software list collected", "count": len(data)}, status=201)
+    
 @require_GET
 def list_person_api(request):
     """
